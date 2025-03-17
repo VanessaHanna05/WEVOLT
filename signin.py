@@ -13,8 +13,14 @@ def app(navigate):
     username = st.text_input("", placeholder="Enter your unique username")
 
     if not firebase_admin._apps:
-        cred = credentials.Certificate("wevolt-4d8a8-2e9079117595.json")
-        firebase_admin.initialize_app(cred)
+        print("unable to initialize")
+        try:
+            cred = credentials.Certificate("wevolt-4d8a8-2e9079117595.json")
+            firebase_admin.initialize_app(cred)
+            st.write("✅ Firebase Initialized")
+        except Exception as e:
+            st.error(f"❌ Firebase Initialization Failed: {e}")
+
     
     db = firestore.client()
 
@@ -132,14 +138,14 @@ def app(navigate):
             navigate("login")
             return {"success": False, "error": "This email is already in use. Try logging in."}
             
-        except auth.InvalidEmailError:
-            return {"success": False, "error": "Invalid email format. Please enter a valid email address."}
+        #except auth.InvalidEmailError:
+           # return {"success": False, "error": "Invalid email format. Please enter a valid email address."}
         
-        except auth.WeakPasswordError:
-            return {"success": False, "error": "Weak password. Use at least 6 characters."}
+        #except auth.WeakPasswordError:
+           # return {"success": False, "error": "Weak password. Use at least 6 characters."}
 
-        except Exception as e:
-            return {"success": False, "error": f"An unexpected error occurred: {str(e)}"}
+        #except Exception as e:
+           # return {"success": False, "error": f"An unexpected error occurred: {str(e)}"}
 
     # Handle Sign-Up Button Click
     if st.button("Create Account"):
@@ -147,6 +153,7 @@ def app(navigate):
             st.warning("⚠️ Please enter all required information.")
         else:
             result = sign_up_user(username, email, password)
+            print("trying to signup")
 
             if result["success"]:
                 st.success("🎉 Account created successfully!")
