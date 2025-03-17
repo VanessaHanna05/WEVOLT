@@ -4,6 +4,8 @@ import firebase_admin
 import time
 import base64
 from firebase_admin import credentials, auth, firestore
+import os
+import json
 
 def app(navigate):
     st.write("Sign-Up Page")
@@ -12,14 +14,15 @@ def app(navigate):
     password = st.text_input("", type="password", placeholder="Enter your password")
     username = st.text_input("", placeholder="Enter your unique username")
 
-    if not firebase_admin._apps:
-        print("unable to initialize")
-        try:
-            cred = credentials.Certificate("wevolt-4d8a8-2e9079117595.json")
-            firebase_admin.initialize_app(cred)
-            st.write("✅ Firebase Initialized")
-        except Exception as e:
-            st.error(f"❌ Firebase Initialization Failed: {e}")
+    firebase_credentials = os.getenv("FIREBASE_CREDENTIALS")
+
+    if firebase_credentials:
+            json_creds = json.loads(base64.b64decode(firebase_credentials).decode("utf-8"))
+            cred = credentials.Certificate(json_creds)
+            if not firebase_admin._apps:
+                firebase_admin.initialize_app(cred)
+    else:
+        raise FileNotFoundError("Firebase credentials not found in Streamlit secrets.")
 
     
     db = firestore.client()

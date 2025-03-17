@@ -4,14 +4,20 @@ from firebase_admin import credentials, auth, firestore
 import base64
 import time
 import home, main
+import json
+import os
 
 
 # Initialize Firebase Admin SDK (Only initialize once)
-if not firebase_admin._apps:
-    cred = credentials.Certificate("wevolt-4d8a8-2e9079117595.json")
-    firebase_admin.initialize_app(cred)
+firebase_credentials = os.getenv("FIREBASE_CREDENTIALS")
 
-db = firestore.client()
+if firebase_credentials:
+    json_creds = json.loads(base64.b64decode(firebase_credentials).decode("utf-8"))
+    cred = credentials.Certificate(json_creds)
+    if not firebase_admin._apps:
+        firebase_admin.initialize_app(cred)
+else:
+    raise FileNotFoundError("Firebase credentials not found in Streamlit secrets.")
 
 def app(navigate):
 
