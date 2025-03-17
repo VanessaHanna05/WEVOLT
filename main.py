@@ -12,9 +12,18 @@ from firebase_admin import credentials, firestore
 from firebase_admin import auth
 
 
-cred = credentials.Certificate('wevolt-4d8a8-2e9079117595.json')
+#cred = credentials.Certificate('wevolt-4d8a8-2e9079117595.json')
 #firebase_admin.initialize_app(cred)
 
+firebase_credentials = os.getenv("FIREBASE_CREDENTIALS")
+
+if firebase_credentials:
+    json_creds = json.loads(base64.b64decode(firebase_credentials).decode("utf-8"))
+    cred = credentials.Certificate(json_creds)
+    if not firebase_admin._apps:
+        firebase_admin.initialize_app(cred)
+else:
+    raise FileNotFoundError("Firebase credentials not found in Streamlit secrets.")
 
 
 # Initialize session state for current_page if it doesn't exist.
