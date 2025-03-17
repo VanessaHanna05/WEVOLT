@@ -4,11 +4,20 @@ from firebase_admin import credentials, auth, firestore
 import base64
 import time
 import home, main
+import os
+import json
 
 # Initialize Firebase Admin SDK (Only initialize once)
 if not firebase_admin._apps:
-    cred = credentials.Certificate("wevolt-4d8a8-2e9079117595.json")
-    firebase_admin.initialize_app(cred)
+    try:
+        cred = credentials.Certificate("wevolt-4d8a8-2e9079117595.json")
+        firebase_admin.initialize_app(cred)
+        st.write("✅ Firebase Initialized")
+    except Exception as e:
+        st.error(f"❌ Firebase Initialization Failed: {e}")
+
+
+
 
 db = firestore.client()
 

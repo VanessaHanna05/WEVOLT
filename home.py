@@ -39,13 +39,13 @@ def app(navigate):
 # Call the function with your local image filename
     set_background("EVback.png")
 
-    if st.button("Go to Sign-up"):
+    if st.button("Go to Sign-up", key="button1"):
         navigate("signin")
 
-    elif st.button("Go to log-in"):
+    elif st.button("Go to log-in", key="button2"):
         navigate("login")
     
-    elif st.button("Go to contact"):
+    elif st.button("Go to contact", key="button3"):
         navigate("contact")
     
  
