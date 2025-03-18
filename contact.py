@@ -41,7 +41,7 @@ def app(navigate):
         }}
 
         
-        input[type="text"], input[type="password"] {{
+        input[type="text"] {{
             background-color: #717775;
             color: black !important;
             border-radius: 5px !important;
@@ -50,9 +50,36 @@ def app(navigate):
             caret-color: black !important;
             width: 300px;
             height: 40px;
-            margin-left: 6%;
+         
           
         }}
+
+        /* Style for the text_area component */
+            textarea {{
+                background-color: #717775 !important;
+                color: black !important;
+                border-radius: 5px !important;
+                border: 2px solid #717775 !important;
+                font-size: 16px !important;
+                width: 300px;
+                height: 100px;
+                resize: vertical; /* Allows resizing vertically */
+            }}
+
+            /* Placeholder text color */
+            textarea::placeholder {{
+                color: lightgrey !important;
+                font-style: italic !important;
+                opacity: 1 !important;
+            }}
+
+            /* Hover effect for textarea */
+            textarea:hover {{
+                background-color: #d3d3d3 !important;
+            }}
+
+
+        
 
         .st-emotion-cache-79elbk {{
             position: relative;
