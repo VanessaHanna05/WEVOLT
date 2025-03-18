@@ -62,7 +62,7 @@ def app(navigate):
                 border: 2px solid #717775 !important;
                 font-size: 16px !important;
                 width: 300px;
-                height: 100px;
+                height: 60px;
                 resize: vertical; /* Allows resizing vertically */
             }}
 
