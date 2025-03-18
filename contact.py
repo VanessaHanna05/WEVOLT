@@ -66,8 +66,14 @@ def app(navigate):
     )
     
    
-    email = st.text_input("Email", placeholder="Enter your email")
-    name = st.text_input("Name", placeholder="Enter your name")
+    col1, col2 = st.columns(2)
+
+    with col1:
+        email = st.text_input("Email", placeholder="Enter your email")
+
+    with col2:
+        name = st.text_input("Name", placeholder="Enter your name")
+
     message = st.text_area("Message", placeholder="Write your message here")
     
     if st.button("Submit"):
