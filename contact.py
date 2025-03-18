@@ -29,16 +29,11 @@ def app(navigate):
         f"""
         <style>
 
-    .stAlert.stWarning {{
-        background-color: #FFCC00 !important;  /* Change the background color */
-        color: black !important;  /* Change the text color */
-        font-weight: bold !important; /* Optional: Make the text bold */
-        border-radius: 5px;  /* Optional: Make the corners rounded */
-    }}
         .stApp {{
             background: url("data:image/png;base64,{encoded}") no-repeat center center fixed;
             background-size: cover;
         }}
+
         div[data-testid="stVerticalBlock"] {{
             display: flex;
             flex-direction: column;
@@ -131,6 +126,8 @@ def app(navigate):
                 contact_data = {"email": email, "name": name, "message": message}
                 db.collection("contact_messages").add(contact_data)
                 st.success("Message sent successfully!")
+                time.sleep(2)
+                navigate("home")
             else:
                 st.warning("You are not a registered user. Redirecting to Sign Up...")
                 time.sleep(2)
