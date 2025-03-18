@@ -37,7 +37,25 @@ def app(navigate):
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding-top: 5%;
+            padding-top: 11%;
+        }}
+
+        input[type="text"] {{
+            background-color: #717775;
+            color: black !important;
+            border-radius: 5px !important;
+            border: 2px solid #717775 !important;
+            font-size: 16px !important;
+            caret-color: black !important;
+            width: 90%;
+            height: 40px;
+            margin-left: 0%;
+          
+        }}
+
+        .st-emotion-cache-79elbk {{
+            position: relative;
+            margin: -10px;
         }}
         
         div.stButton > button {{
