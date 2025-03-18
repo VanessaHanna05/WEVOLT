@@ -55,7 +55,7 @@ def app(navigate):
             border-radius: 30px !important;
             padding: 15px 20px !important;
             width: 150px;
-            margin-top: 10px;
+            margin-top: 2px;
         }}
         div.stButton > button:hover {{
             background-color: #4caf5087 !important;
@@ -74,7 +74,7 @@ def app(navigate):
     with col2:
         name = st.text_input("",placeholder="Enter your name")
 
-    message = st.text_area("","Message", placeholder="Write your message here")
+    message = st.text_area("", placeholder="Write your message here")
     
     if st.button("Submit"):
         if email and name and message:
