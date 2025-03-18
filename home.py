@@ -20,7 +20,7 @@ def app(navigate):
             align-items: center;
             justify-content: center;
            
-            padding-top:50%;
+            padding-top:60%;
     
         }}
 
@@ -28,9 +28,9 @@ def app(navigate):
         .stButton>button {{
             
             width: 200px;
-            height: 50px;
+            height: 40px;
             font-size: 16px;
-            margin: 10px; /* Spacing between buttons */
+            margin: 6px; /* Spacing between buttons */
             background-color: rgb(106 110 118 / 47%);
         }}
         </style>
