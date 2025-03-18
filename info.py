@@ -40,8 +40,8 @@ def app(navigate):
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding-top:70%;
-            padding-left:25%;
+            padding-top:50%;
+            padding-left:6%;
         }}
 
         /* Override the unwanted light grey background */
@@ -57,15 +57,29 @@ def app(navigate):
             color: black !important;
             border-radius: 5px !important;
             border: 2px solid #717775 !important;
-            font-size: 16px !important;
+            font-size: 12px !important;
             caret-color: black !important;
             width: 300px;
-            height: 40px;
+            height: 30px;
             margin-left: 0%;
           
         }}
 
-      
+        .st-emotion-cache-1weic72 {{
+            font-size: 0.875rem;
+            color: rgb(250, 250, 250);
+            display: flex;
+            visibility: hidden;
+            margin-bottom: 0.25rem;
+            height: auto;
+            min-height: 1.5rem;
+            vertical-align: middle;
+            flex-direction: row;
+            -webkit-box-align: center;
+            align-items: center;
+            margin-bottom: -20px;
+
+      }}
 
         /* Placeholder text color */
         input::placeholder, textarea::placeholder {{
@@ -87,8 +101,8 @@ def app(navigate):
             border: none !important;
             padding: 20px 20px !important;
             margin-top: 5%;
-            margin-left: 20%;
             width: 150px;
+            height:40px;
             
             
         }}
