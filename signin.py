@@ -99,6 +99,7 @@ def app(navigate):
             margin-top: 5%;
             margin-left: 25%;
             width: 200px;
+            height: 20px;
         }}
 
         /* Button hover effect */
