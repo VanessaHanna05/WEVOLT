@@ -57,10 +57,11 @@ def app(navigate):
     )
     
    
- 
-    email = st.text_input("",placeholder="Enter your email")
-    name = st.text_input("",placeholder="Enter your name")
-    message = st.text_area("", placeholder="Write your message here")
+    container  = st.container()
+    with container:
+        email = st.text_input("",placeholder="Enter your email")
+        name = st.text_input("",placeholder="Enter your name")
+        message = st.text_area("", placeholder="Write your message here")
     
     if st.button("Submit"):
         if email and name and message:
