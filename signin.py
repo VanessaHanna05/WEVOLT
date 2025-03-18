@@ -95,8 +95,8 @@ def app(navigate):
             border-radius: 30px !important;
             border: none !important;
             padding: 20px 20px !important;
-            margin-top: 5%;
-            margin-left: 25%;
+        
+            margin-left: 6%;
             width: 200px;
             height: 20px;
         }}

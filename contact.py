@@ -37,18 +37,9 @@ def app(navigate):
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding-top: 10%;
+            padding-top: 5%;
         }}
-        input[type="text"], textarea {{
-            background-color: #717775;
-            color: black !important;
-            border-radius: 5px !important;
-            border: 2px solid #717775 !important;
-            font-size: 12px !important;
-            width: 120px;
-            height: 40px;
-            
-        }}
+        
         div.stButton > button {{
             background-color: #4CAF50 !important;
             color: white !important;
@@ -66,14 +57,9 @@ def app(navigate):
     )
     
    
-    col1, col2 = st.columns(2)
-
-    with col1:
-        email = st.text_input("",placeholder="Enter your email")
-
-    with col2:
-        name = st.text_input("",placeholder="Enter your name")
-
+ 
+    email = st.text_input("",placeholder="Enter your email")
+    name = st.text_input("",placeholder="Enter your name")
     message = st.text_area("", placeholder="Write your message here")
     
     if st.button("Submit"):
