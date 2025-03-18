@@ -25,7 +25,8 @@ def app(navigate):
 
     def authenticate_user(username, password):
         """Authenticate user by fetching their email from Firestore"""
-        
+        if "logged-in user" not in st.session_state:
+            st.session_state["logged-in user"] = None
         
         try:
             # Query Firestore to get user data by username
@@ -42,9 +43,11 @@ def app(navigate):
                 return
             else:   
                 
-
+            
             # Extract email (Firebase Auth requires email for authentication)
                 user_email = user_data.get("email")
+
+                st.session_state["logged_in_user"] = user_data
 
             # Authenticate with Firebase Authentication (Admin SDK can't verify passwords directly)
             # This requires Firebase Client SDK or manual hashing for password verification
