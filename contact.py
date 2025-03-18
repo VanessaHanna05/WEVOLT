@@ -40,16 +40,17 @@ def app(navigate):
             padding-top: 11%;
         }}
 
-        input[type="text"] {{
+        
+        input[type="text"], input[type="password"] {{
             background-color: #717775;
             color: black !important;
             border-radius: 5px !important;
             border: 2px solid #717775 !important;
             font-size: 16px !important;
             caret-color: black !important;
-            width: 90%;
+            width: 300px;
             height: 40px;
-            margin-left: 0%;
+            margin-left: 6%;
           
         }}
 
