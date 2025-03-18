@@ -143,7 +143,7 @@ def app(navigate):
             return
         else:
             authenticate_user(username, password)
-            time.sleep(2)
+            time.sleep(4)
             navigate("info")
 
     if st.button("Home"):
