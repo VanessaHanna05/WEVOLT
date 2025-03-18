@@ -71,7 +71,7 @@ def app(navigate):
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding-top:50%;
+            padding-top:30%;
         }}
 
         /* Override the unwanted light grey background */
@@ -117,6 +117,7 @@ def app(navigate):
             margin-top: 5%;
             margin-left: 30%;
             width: 150px;
+            height: 40px;
             
             
         }}
@@ -132,7 +133,7 @@ def app(navigate):
 
     # Input fields
     username = st.text_input("", placeholder="Username")
-    password = st.text_input("", type="password", placeholder="Password")
+    password = st.text_input("", placeholder="Password")
 
     # Login button
     if st.button("Login"):

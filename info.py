@@ -18,7 +18,7 @@ if firebase_credentials:
         firebase_admin.initialize_app(cred)
 else:
     raise FileNotFoundError("Firebase credentials not found in Streamlit secrets.")
-
+db = firestore.client()
 def app(navigate):
 
     # Load and encode the background image
