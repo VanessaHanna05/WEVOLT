@@ -69,12 +69,12 @@ def app(navigate):
     col1, col2 = st.columns(2)
 
     with col1:
-        email = st.text_input(placeholder="Enter your email")
+        email = st.text_input("",placeholder="Enter your email")
 
     with col2:
-        name = st.text_input(placeholder="Enter your name")
+        name = st.text_input("",placeholder="Enter your name")
 
-    #message = st.text_area("Message", placeholder="Write your message here")
+    message = st.text_area("","Message", placeholder="Write your message here")
     
     if st.button("Submit"):
         if email and name and message:
