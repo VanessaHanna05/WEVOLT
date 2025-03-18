@@ -91,7 +91,7 @@ def app(navigate):
             caret-color: black !important;
             width: 300px;
             height: 40px;
-            margin-left: 10%;
+            margin-left: 6%;
           
         }}
 
@@ -115,7 +115,7 @@ def app(navigate):
             border: none !important;
             padding: 20px 20px !important;
             margin-top: 5%;
-            margin-left: 30%;
+            margin-left: 10%;
             width: 150px;
             height: 40px;
             
