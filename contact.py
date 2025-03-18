@@ -29,7 +29,7 @@ def app(navigate):
         f"""
         <style>
 
-         .stAlert.stWarning {{
+        .stAlert.stWarning {{
         color: red !important; /* Change the color of the warning text */
         font-weight: bold !important; /* Make the text bold */
     }}
