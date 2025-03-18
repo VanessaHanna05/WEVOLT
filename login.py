@@ -40,14 +40,15 @@ def app(navigate):
             if not user_data:
                 st.warning("❌ Username not found.")
                 return
-            st.session_state["logged_in_user"] = user_data
+            else:   
+                st.session_state["logged_in_user"] = user_data
 
             # Extract email (Firebase Auth requires email for authentication)
-            user_email = user_data.get("email")
+                user_email = user_data.get("email")
 
             # Authenticate with Firebase Authentication (Admin SDK can't verify passwords directly)
             # This requires Firebase Client SDK or manual hashing for password verification
-            st.success(f"✅ Login successful! Welcome, {user_data['username']} ({user_data.get('role', 'user')})")
+                st.success(f"✅ Login successful! Welcome, {user_data['username']} ({user_data.get('role', 'user')})")
 
         except Exception as e:
             st.error(f"❌ Authentication failed: {e}")
