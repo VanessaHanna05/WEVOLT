@@ -20,13 +20,14 @@ def app(navigate):
             align-items: center;
             justify-content: center;
             height: 80vh; /* Adjust height as needed */
-            padding-top:90%;
-            padding-left:40%;
+            padding-top:70%;
+    
         }}
 
         /* Style for buttons */
         .stButton>button {{
-            width: 200px;
+            
+            width: 50%;
             height: 50px;
             font-size: 16px;
             margin: 10px; /* Spacing between buttons */
