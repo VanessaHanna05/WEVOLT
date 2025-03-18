@@ -41,7 +41,7 @@ def app(navigate):
                 st.warning("❌ Username not found.")
                 return
             else:   
-                st.session_state["logged_in_user"] = user_data
+                
 
             # Extract email (Firebase Auth requires email for authentication)
                 user_email = user_data.get("email")
