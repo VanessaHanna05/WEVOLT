@@ -27,7 +27,7 @@ def app(navigate):
         /* Style for buttons */
         .stButton>button {{
             
-            width: 50%;
+            width: 200px;
             height: 50px;
             font-size: 16px;
             margin: 10px; /* Spacing between buttons */
