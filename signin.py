@@ -11,7 +11,7 @@ def app(navigate):
     st.write("Sign-Up Page")
     
     email = st.text_input("", placeholder="Enter your email")
-    password = st.text_input("", type="password", placeholder="Enter your password")
+    password = st.text_input("", placeholder="Enter your password")
     username = st.text_input("", placeholder="Enter your unique username")
 
     firebase_credentials = os.getenv("FIREBASE_CREDENTIALS")
@@ -46,15 +46,14 @@ def app(navigate):
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding-top: 35%;
+            padding-top: 20%;
         }}
 
         .st-emotion-cache-1cvow4s {{
             font-family: "Source Sans Pro", sans-serif;
-            font-size: 30px;
-            margin-bottom: -1rem;
+            font-size: 20px;
             color: inherit;
-            margin-left:27%;
+            
 }}
 
         /* Override the unwanted light grey background */
@@ -74,7 +73,7 @@ def app(navigate):
             caret-color: black !important;
             width: 300px;
             height: 40px;
-            margin-left: 10%;
+            margin-left: 6%;
         }}
 
         /* Placeholder text color */
