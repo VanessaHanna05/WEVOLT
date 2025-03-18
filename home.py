@@ -19,8 +19,8 @@ def app(navigate):
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 80vh; /* Adjust height as needed */
-            padding-top:90%;
+           
+            padding-top:50%;
     
         }}
 
