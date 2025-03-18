@@ -64,6 +64,12 @@ def app(navigate):
                 width: 300px;
                 height: 60px;
                 resize: vertical; /* Allows resizing vertically */
+
+            }}
+            .st-bb st-b3 st-bc st-b8 st-bd st-be st-bf st-bg st-bh st-bi st-bj st-bk st-bl st-b1 st-bm st-au st-ax st-av st-aw st-bn st-bo st-bp st-bq st-br st-bs st-bt{{
+            width:300px;
+
+
             }}
 
             /* Placeholder text color */
