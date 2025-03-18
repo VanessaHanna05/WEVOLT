@@ -20,7 +20,7 @@ def app(navigate):
             align-items: center;
             justify-content: center;
             height: 80vh; /* Adjust height as needed */
-            padding-top:70%;
+            padding-top:90%;
     
         }}
 
