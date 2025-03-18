@@ -29,9 +29,11 @@ def app(navigate):
         f"""
         <style>
 
-        .stAlert.stWarning {{
-        color: red !important; /* Change the color of the warning text */
-        font-weight: bold !important; /* Make the text bold */
+    .stAlert.stWarning {{
+        background-color: #FFCC00 !important;  /* Change the background color */
+        color: black !important;  /* Change the text color */
+        font-weight: bold !important; /* Optional: Make the text bold */
+        border-radius: 5px;  /* Optional: Make the corners rounded */
     }}
         .stApp {{
             background: url("data:image/png;base64,{encoded}") no-repeat center center fixed;
