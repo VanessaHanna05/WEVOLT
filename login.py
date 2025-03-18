@@ -25,10 +25,8 @@ def app(navigate):
 
     def authenticate_user(username, password):
         """Authenticate user by fetching their email from Firestore"""
-        if not username or not password:
-            st.warning("⚠️ Please enter both username and password.")
-            return
-
+        
+        
         try:
             # Query Firestore to get user data by username
             users_ref = db.collection("users")  # Firestore collection
@@ -138,9 +136,13 @@ def app(navigate):
 
     # Login button
     if st.button("Login"):
-        authenticate_user(username, password)
-        time.sleep(2)
-        navigate("info")
+        if not username or not password:
+            st.warning("⚠️ Please enter both username and password.")
+            return
+        else:
+            authenticate_user(username, password)
+            time.sleep(2)
+            navigate("info")
 
     if st.button("Home"):
         navigate('home')
