@@ -28,6 +28,11 @@ def app(navigate):
     st.markdown(
         f"""
         <style>
+
+         .stAlert.stWarning {{
+        color: red !important; /* Change the color of the warning text */
+        font-weight: bold !important; /* Make the text bold */
+    }}
         .stApp {{
             background: url("data:image/png;base64,{encoded}") no-repeat center center fixed;
             background-size: cover;
