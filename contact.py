@@ -44,8 +44,8 @@ def app(navigate):
             color: black !important;
             border-radius: 5px !important;
             border: 2px solid #717775 !important;
-            font-size: 16px !important;
-            width: 300px;
+            font-size: 12px !important;
+            width: 120px;
             height: 40px;
             margin: 5px;
         }}
