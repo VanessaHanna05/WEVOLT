@@ -161,7 +161,7 @@ def app(navigate):
                 "spot_nb": spot_nb
             })
 
-            sort_users.app()
+            sort_users.sort_users()
         
         except ValueError:
             st.warning("⚠️ Please enter valid time format (HH:MM) and numeric charging duration.")
