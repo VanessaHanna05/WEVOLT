@@ -6,6 +6,7 @@ import time
 import datetime
 import json
 import os
+import sort_users
 
 # Initialize Firebase Admin SDK (Only initialize once)
 firebase_credentials = os.getenv("FIREBASE_CREDENTIALS")
@@ -129,6 +130,7 @@ def app(navigate):
             result = sign_up_user(username, email, password)
             if result["success"]:
                 st.success("🎉 Account created successfully!")
+                sort_users.sort_users()
                 st.markdown("✅ Redirecting to login page....")
                 time.sleep(2)
                 navigate("login")
