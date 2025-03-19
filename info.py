@@ -6,6 +6,7 @@ import time
 import datetime
 import json
 import os
+import sort_users
 
 # Initialize Firebase Admin SDK (Only initialize once)
 firebase_credentials = os.getenv("FIREBASE_CREDENTIALS")
@@ -153,11 +154,14 @@ def app(navigate):
                 return
             
             # If validations pass, update user info
+            
             update_user_info({
                 "leave_time": leave_time_str,
                 "duration": charging_duration_str,
                 "spot_nb": spot_nb
             })
+
+            sort_users.sort_users()
         
         except ValueError:
             st.warning("⚠️ Please enter valid time format (HH:MM) and numeric charging duration.")

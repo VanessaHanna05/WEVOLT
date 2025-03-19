@@ -54,7 +54,7 @@ def app(navigate):
             # Authenticate with Firebase Authentication (Admin SDK can't verify passwords directly)
             # This requires Firebase Client SDK or manual hashing for password verification
                 st.success(f"✅ Login successful! Welcome, {user_data['username']} ({user_data.get('role', 'user')})")
-                sort_users.sort_users()
+               
                 time.sleep(2)
                 navigate("info")
         except Exception as e:
