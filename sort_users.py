@@ -38,6 +38,7 @@ def sort_users():
         user_data = user.to_dict()
         exit_time = parse_time(user_data.get("leave_time", ""))
         duration = float(user_data.get("duration", 0))
+        aruco_id = int(user_data.get("aruco_id"))
 
         if exit_time:
             # If the exit time has passed, set duration to -1
@@ -49,7 +50,9 @@ def sort_users():
                 "uid": user.id,
                 "username": user_data.get("username", ""),
                 "exit_time": user_data.get("leave_time", ""),  # Keep as string for Firestore
-                "duration": duration
+                "duration": duration,
+                "aruco_id": aruco_id
+
             })
 
     # Sort users: first by exit time (earlier first), then by duration (longer first)
