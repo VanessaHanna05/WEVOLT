@@ -3,14 +3,12 @@ import firebase_admin
 from firebase_admin import credentials, auth, firestore
 import base64
 import time
-import home, main
+import datetime
 import json
 import os
 
-
 # Initialize Firebase Admin SDK (Only initialize once)
 firebase_credentials = os.getenv("FIREBASE_CREDENTIALS")
-
 if firebase_credentials:
     json_creds = json.loads(base64.b64decode(firebase_credentials).decode("utf-8"))
     cred = credentials.Certificate(json_creds)
@@ -18,8 +16,23 @@ if firebase_credentials:
         firebase_admin.initialize_app(cred)
 else:
     raise FileNotFoundError("Firebase credentials not found in Streamlit secrets.")
+
 db = firestore.client()
+
 def app(navigate):
+    user = st.session_state.get('logged_in_user')
+    if not user:
+        st.warning("⚠️ No user logged in. Please log in first.")
+        return
+
+    def update_user_info(new_attributes):
+        doc_id = user["uid"]  # Get Firestore document ID
+        try:
+            db.collection("users").document(doc_id).update(new_attributes)
+            st.session_state["logged_in_user"].update(new_attributes)
+            st.success("✅ User information updated successfully!")
+        except Exception as e:
+            st.error(f"❌ Failed to update user info: {e}")
 
     # Load and encode the background image
     image_file = 'infoback.png'
@@ -62,7 +75,6 @@ def app(navigate):
             width: 300px;
             height: 30px;
             margin-left: 0%;
-          
         }}
 
         .st-emotion-cache-1weic72 {{
@@ -78,8 +90,7 @@ def app(navigate):
             -webkit-box-align: center;
             align-items: center;
             margin-bottom: -20px;
-
-      }}
+        }}
 
         /* Placeholder text color */
         input::placeholder, textarea::placeholder {{
@@ -103,8 +114,6 @@ def app(navigate):
             margin-top: 5%;
             width: 150px;
             height:40px;
-            
-            
         }}
 
         /* Button hover effect */
@@ -116,49 +125,39 @@ def app(navigate):
         unsafe_allow_html=True
     )
 
-    user = st.session_state['logged_in_user']
-
-    def update_user_info(new_attributes):
-
-        if "logged_in_user" not in st.session_state:
-            st.warning("⚠️ No user logged in. Please log in first.")
-            return
-
-        user = st.session_state["logged_in_user"]
-        doc_id = user["uid"]  # Get Firestore document ID
-
-        try:
-            # Update the user document in Firestore
-            db.collection("users").document(doc_id).update(new_attributes)
-
-            # Update session state with new attributes
-            st.session_state["logged_in_user"].update(new_attributes)
-
-            st.success("✅ User information updated successfully!")
-        
-        except Exception as e:
-            st.error(f"❌ Failed to update user info: {e}")
-
-
-
     # Input fields
-    leave_time = st.text_input("Exit Time", placeholder="leave time hh:mm")
-    charging_duration = st.text_input("Charging Duration", placeholder="Charging duration (in hours)")
-    spot_nb = st.text_input("Spot no.", placeholder="Check Which Spot are u parked on")
-
-    # Login button
-    if st.button("submit"):
-        if not leave_time or not charging_duration or not spot_nb:
-            st.warning("⚠️ Please enter both inputs.")
+    leave_time_str = st.text_input("Exit Time", placeholder="HH:MM (24-hour format)")
+    charging_duration_str = st.text_input("Charging Duration", placeholder="Charging duration (in hours)")
+    spot_nb = st.text_input("Spot no.", placeholder="Check Which Spot you are parked on")
+    
+    # Submit button
+    if st.button("Submit"):
+        if not leave_time_str or not charging_duration_str or not spot_nb:
+            st.warning("⚠️ Please fill in all the fields.")
             return
-        else:
+        
+        try:
+            # Validate leave time format
+            leave_time = datetime.datetime.strptime(leave_time_str, "%H:%M").time()
+            current_time = datetime.datetime.now().time()
+            
+            # Validate charging duration
+            charging_duration = float(charging_duration_str)
+            
+            if leave_time <= current_time:
+                st.warning("⚠️ Exit time must be later than the current time.")
+                return
+            
+            if not (0 < charging_duration <= 5):
+                st.warning("⚠️ Charging duration must be greater than 0 and less than or equal to 5 hours.")
+                return
+            
+            # If validations pass, update user info
             update_user_info({
-                "leave_time":leave_time,
-                "duration":charging_duration,
+                "leave_time": leave_time_str,
+                "duration": charging_duration_str,
                 "spot_nb": spot_nb
             })
-
-
-
-
-    
+        
+        except ValueError:
+            st.warning("⚠️ Please enter valid time format (HH:MM) and numeric charging duration.")
