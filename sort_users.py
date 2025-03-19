@@ -18,7 +18,7 @@ else:
 db = firestore.client()
 
 def parse_time(time_str):
-    """Convert HH:MM time string to a datetime object for sorting."""
+    """Convert HH:MM time string to a datetime.time object for sorting."""
     try:
         return datetime.datetime.strptime(time_str, "%H:%M").time()
     except ValueError:
@@ -40,12 +40,12 @@ def sort_users():
             user_list.append({
                 "uid": user.id,
                 "username": user_data.get("username", ""),
-                "exit_time": exit_time,
+                "exit_time": user_data.get("leave_time", ""),  # Store as string
                 "duration": duration
             })
 
     # Sort users: first by exit time (earlier first), then by duration (longer first)
-    sorted_users = sorted(user_list, key=lambda u: (u["exit_time"], -u["duration"]))
+    sorted_users = sorted(user_list, key=lambda u: (parse_time(u["exit_time"]), -u["duration"]))
 
     # Store sorted list in Firestore
     sorted_ref = db.collection("metadata").document("sorted_users")
