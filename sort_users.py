@@ -29,7 +29,7 @@ def app():
         """Retrieve users, sort them based on exit time and charging duration, and update Firestore."""
         users_ref = db.collection("users")
         users = users_ref.stream()
-
+        sorted_users = db.collection("sorted_users")
         user_list = []
         
         for user in users:
@@ -45,11 +45,12 @@ def app():
                     "duration": duration
                 })
 
+
         # Sort users: first by exit time (earlier first), then by duration (longer first)
         sorted_users = sorted(user_list, key=lambda u: (parse_time(u["exit_time"]), -u["duration"]))
 
         # Store sorted list in Firestore
-        sorted_ref = db.collection("metadata").document("sorted_users")
+        sorted_ref = db.collection("sorted_users")
         sorted_ref.set({"sorted_list": sorted_users})
 
         print("✅ User list sorted and updated in Firestore.")
