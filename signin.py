@@ -130,7 +130,7 @@ def app(navigate):
             result = sign_up_user(username, email, password)
             if result["success"]:
                 st.success("🎉 Account created successfully!")
-                sort_users.sort_users()
+        
                 st.markdown("✅ Redirecting to login page....")
                 time.sleep(2)
                 navigate("login")
