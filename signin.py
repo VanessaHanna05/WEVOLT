@@ -31,32 +31,49 @@ def get_next_aruco_id():
     doc_ref.set({"last_id": new_id})
     return new_id
 
+def sign_up_user(username, email, password, role="user"):
+    """Creates a user in Firebase Authentication and Firestore with an incrementing Aruco ID."""
+    try:
+        existing_users = db.collection("users").where("username", "==", username).stream()
+        if any(existing_users):
+            return {"success": False, "error": "Username already exists. Please choose another."}
+
+        user = auth.create_user(
+            email=email,
+            password=password,
+            display_name=username
+        )
+
+        aruco_id = get_next_aruco_id()
+
+        db.collection("users").document(user.uid).set({
+            "username": username,
+            "email": email,
+            "role": role,
+            "uid": user.uid,
+            "aruco_id": aruco_id
+        })
+
+        return {"success": True, "user": user}
+    except auth.EmailAlreadyExistsError:
+        time.sleep(4)
+        return {"success": False, "error": "This email is already in use. Try logging in."}
+    except Exception as e:
+        return {"success": False, "error": f"An unexpected error occurred: {str(e)}"}
+
 def app(navigate):
-    user = st.session_state.get('logged_in_user')
-    if not user:
-        st.warning("⚠️ No user logged in. Please log in first.")
-        return
-
-    def update_user_info(new_attributes):
-        doc_id = user["uid"]  # Get Firestore document ID
-        try:
-            db.collection("users").document(doc_id).update(new_attributes)
-            st.session_state["logged_in_user"].update(new_attributes)
-            st.success("✅ User information updated successfully!")
-        except Exception as e:
-            st.error(f"❌ Failed to update user info: {e}")
-
-    # Assign Aruco ID if not set
-    if "aruco_id" not in user:
-        new_aruco_id = get_next_aruco_id()
-        update_user_info({"aruco_id": new_aruco_id})
-
-    # Load and encode the background image
-    image_file = 'infoback.png'
+    st.write("Sign-Up Page")
+    
+    email = st.text_input("", placeholder="Enter your email")
+    password = st.text_input("", placeholder="Enter your password")
+    username = st.text_input("", placeholder="Enter your unique username")
+    
+    # Load and encode the background image (Same as login page)
+    image_file = 'signup.png'  
     with open(image_file, "rb") as img:
         encoded = base64.b64encode(img.read()).decode()
 
-    # Apply custom styling with the embedded background image
+    # Apply custom styling to match login page
     st.markdown(
         f"""
         <style>
@@ -64,51 +81,39 @@ def app(navigate):
             background: url("data:image/png;base64,{encoded}") no-repeat center center fixed;
             background-size: cover;
         }}
-        
         div[data-testid="stVerticalBlock"] {{
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding-top:50%;
-            padding-left:6%;
+            padding-top: 20%;
         }}
-        
-        .st-b7 {{
-            background-color: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-        }}
-        
-        input[type="text"] {{
+        input[type="text"], input[type="password"] {{
             background-color: #717775;
             color: black !important;
             border-radius: 5px !important;
             border: 2px solid #717775 !important;
-            font-size: 12px !important;
+            font-size: 16px !important;
             caret-color: black !important;
             width: 300px;
-            height: 30px;
-            margin-left: 0%;
+            height: 40px;
+            margin-left: 6%;
         }}
-        
         input::placeholder, textarea::placeholder {{
             color: lightgrey !important;
             font-style: italic !important;
             opacity: 1 !important;
         }}
-        
         div.stButton > button {{
             background-color: #4CAF50 !important;
             color: white !important;
             border-radius: 30px !important;
             border: none !important;
             padding: 20px 20px !important;
-            margin-top: 5%;
-            width: 150px;
-            height:40px;
+            margin-left: 6%;
+            width: 200px;
+            height: 40px;
         }}
-        
         div.stButton > button:hover {{
             background-color: #4caf5087 !important;
         }}
@@ -116,37 +121,19 @@ def app(navigate):
         """,
         unsafe_allow_html=True
     )
-
-    # Input fields
-    leave_time_str = st.text_input("Exit Time", placeholder="HH:MM (24-hour format)")
-    charging_duration_str = st.text_input("Charging Duration", placeholder="Charging duration (in hours)")
-    spot_nb = st.text_input("Spot no.", placeholder="Check Which Spot you are parked on")
     
-    # Submit button
-    if st.button("Submit"):
-        if not leave_time_str or not charging_duration_str or not spot_nb:
-            st.warning("⚠️ Please fill in all the fields.")
-            return
-        
-        try:
-            leave_time = datetime.datetime.strptime(leave_time_str, "%H:%M").time()
-            current_time = datetime.datetime.now().time()
-            
-            charging_duration = float(charging_duration_str)
-            
-            if leave_time <= current_time:
-                st.warning("⚠️ Exit time must be later than the current time.")
-                return
-            
-            if not (0 < charging_duration <= 5):
-                st.warning("⚠️ Charging duration must be greater than 0 and less than or equal to 5 hours.")
-                return
-            
-            update_user_info({
-                "leave_time": leave_time_str,
-                "duration": charging_duration_str,
-                "spot_nb": spot_nb
-            })
-        
-        except ValueError:
-            st.warning("⚠️ Please enter valid time format (HH:MM) and numeric charging duration.")
+    if st.button("Create Account"):
+        if not username or not password or not email:
+            st.warning("⚠️ Please enter all required information.")
+        else:
+            result = sign_up_user(username, email, password)
+            if result["success"]:
+                st.success("🎉 Account created successfully!")
+                st.markdown("✅ Redirecting to login page....")
+                time.sleep(2)
+                navigate("login")
+            else:
+                st.error(f"❌ Sign-up failed: {result['error']}")
+    
+    if st.button("Home"):
+        navigate('home')
