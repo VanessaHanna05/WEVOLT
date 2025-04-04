@@ -7,17 +7,24 @@ import datetime
 import json
 import os
 import sort_users
+import subprocess
 
 # Initialize Firebase Admin SDK (Only initialize once)
-firebase_credentials = os.getenv("FIREBASE_CREDENTIALS")
-if firebase_credentials:
-    json_creds = json.loads(base64.b64decode(firebase_credentials).decode("utf-8"))
-    cred = credentials.Certificate(json_creds)
-    if not firebase_admin._apps:
-        firebase_admin.initialize_app(cred)
-else:
-    raise FileNotFoundError("Firebase credentials not found in Streamlit secrets.")
+#firebase_credentials = os.getenv("FIREBASE_CREDENTIALS")
+#if firebase_credentials:
+#    json_creds = json.loads(base64.b64decode(firebase_credentials).decode("utf-8"))
+#    cred = credentials.Certificate(json_creds)
+#    if not firebase_admin._apps:
+#        firebase_admin.initialize_app(cred)
+#else:
+#    raise FileNotFoundError("Firebase credentials not found in Streamlit secrets.")
 
+cred = credentials.Certificate('wevolt-4d8a8-2e9079117595.json')
+
+# Initialize Firebase Admin SDK
+if not firebase_admin._apps:
+    firebase_admin.initialize_app(cred)
+    
 db = firestore.client()
 
 def app(navigate):
@@ -161,7 +168,18 @@ def app(navigate):
                 "spot_nb": spot_nb
             })
 
-            sort_users.sort_users()
+            
+
+            # Call external Python script to send information to the Raspberry Pi
+            
+            # Check the result of the script execution
+            
+            #if result.returncode == 0:
+             #   st.success("✅ Information sent to Raspberry Pi successfully!")
+            #else:
+              #  st.error(f"❌ Failed to send information to Raspberry Pi: {result.stderr}")
         
+            sort_users.sort_users()
+            result = subprocess.run(['.venv/Scripts/python', 'trial.py'], capture_output=True, text=True, env=os.environ)
         except ValueError:
             st.warning("⚠️ Please enter valid time format (HH:MM) and numeric charging duration.")
