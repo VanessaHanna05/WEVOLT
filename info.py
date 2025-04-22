@@ -25,7 +25,7 @@ def is_spot_taken(spot_nb, current_user_uid):
     for user in users:
         data = user.to_dict()
         try:
-            leave_time = datetime.datetime.strptime(data["leave_time"], "%Y-%m-%d %H:%M:%S")
+            leave_time = datetime.datetime.strptime(data["leave_time"], "%H:%M")
         except ValueError:
             st.error(f"Error parsing leave time: {data['leave_time']}")
             leave_time = None  # Handle the missing or invalid date appropriately
