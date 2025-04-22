@@ -34,6 +34,7 @@ def get_next_aruco_id():
     else:
         last_id = 0
     new_id = last_id + 1
+        
     doc_ref.set({"last_id": new_id})
     return new_id
 
