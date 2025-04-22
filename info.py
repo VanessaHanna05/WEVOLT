@@ -24,7 +24,11 @@ def is_spot_taken(spot_nb, current_user_uid):
     users = db.collection("users").stream()
     for user in users:
         data = user.to_dict()
-        leave_time = datetime.datetime.strptime(data["leave_time"], "%H:%M").time()
+        try:
+            leave_time = datetime.datetime.strptime(data["leave_time"], "%Y-%m-%d %H:%M:%S")
+        except ValueError:
+            st.error(f"Error parsing leave time: {data['leave_time']}")
+            leave_time = None  # Handle the missing or invalid date appropriately
         if data["uid"] != current_user_uid and data.get("spot_nb") == spot_nb and leave_time>current_time:
             return True
     return False
