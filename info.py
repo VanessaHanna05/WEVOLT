@@ -17,7 +17,7 @@ current_time = datetime.datetime.now().time()
 
 db = firestore.client()
 
-def is_spot_taken(spot_nb, current_user_uid):
+def is_spot_taken(spot_nb, current_user_uid, leave_time):
     """
     Check Firestore if the given spot number is already taken by another active user.
     """
@@ -25,7 +25,7 @@ def is_spot_taken(spot_nb, current_user_uid):
     for user in users:
         data = user.to_dict()
         try:
-            leave_time = datetime.datetime.strptime(data["leave_time"], "%H:%M")
+            leave_time = datetime.datetime.strptime(data["leave_time"], "%H:%M").time()
         except ValueError:
             st.error(f"Error parsing leave time: {data['leave_time']}")
             leave_time = None  # Handle the missing or invalid date appropriately
@@ -154,7 +154,7 @@ def app(navigate):
                 return
 
             # Check for spot conflict
-            if is_spot_taken(spot_nb,current_user["uid"]):
+            if is_spot_taken(spot_nb,current_user["uid"],leave_time_str ):
                 st.warning(f"🚫 Spot {spot_nb} is already reserved by another user.")
                 return
 
