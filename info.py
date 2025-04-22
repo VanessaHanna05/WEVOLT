@@ -24,11 +24,6 @@ def is_spot_taken(spot_nb, current_user_uid, leave_time):
     users = db.collection("users").stream()
     for user in users:
         data = user.to_dict()
-        try:
-            leave_time = datetime.datetime.strptime(leave_time, "%H:%M").time()
-        except ValueError:
-            st.error(f"Error parsing leave time: {leave_time}")
-            leave_time = None  # Handle the missing or invalid date appropriately
         if data["uid"] != current_user_uid and data.get("spot_nb") == spot_nb and leave_time>current_time:
             return True
     return False
@@ -154,7 +149,7 @@ def app(navigate):
                 return
 
             # Check for spot conflict
-            if is_spot_taken(spot_nb,current_user["uid"],leave_time_str ):
+            if is_spot_taken(spot_nb,current_user["uid"],leave_time):
                 st.warning(f"🚫 Spot {spot_nb} is already reserved by another user.")
                 return
 
