@@ -64,6 +64,7 @@ def sort_users():
         user_list.append({
             "uid": user.id,
             "username": user_data.get("username", ""),
+            "email": user_data.get("email",""),
             "exit_time": exit_time_str,
             "duration": duration,
             "aruco_id": aruco_id,

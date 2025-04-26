@@ -62,11 +62,10 @@ def sign_up_user(username, email, password, role="user"):
         })
 
         return {"success": True, "user": user}
-    except auth.EmailAlreadyExistsError:
-        time.sleep(4)
-        return {"success": False, "error": "This email is already in use. Try logging in."}
+       # time.sleep(4)
+        #return {"success": False, "error": "This email is already in use. Try logging in."}
     except Exception as e:
-        return {"success": False, "error": f"An unexpected error occurred: {str(e)}"}
+         return {"success": False, "error": f"An unexpected error occurred: {str(e)}"}
 
 def app(navigate):
     st.write("Sign-Up Page")

@@ -4,6 +4,8 @@ from firebase_admin import credentials, firestore
 import time
 import json
 import sort_users
+import smtplib
+from email.mime.text import MIMEText
 
 # Initialize Firebase Admin SDK
 cred = credentials.Certificate('wevolt-4d8a8-2e9079117595.json')  # Path to your credentials file
@@ -76,6 +78,59 @@ def is_collection_empty(collection_name):
     else:
         print(f"The collection '{collection_name}' is not empty.")
         return False  # Collection is not empty
+    
+def send_email(email,username,hrs):
+    
+    subject = "WeVolt Notification"
+    body = f"""
+    Hi {username},
+
+    This is a notification from WeVolt. 
+    You charged your car today for {hrs} hrs, and your total charge will be {20*hrs}
+    Thank you for being part of our platform!
+
+    Best regards,
+    WeVolt Team
+    """
+
+    # Outlook account details
+    sender_email = "vanessahanna03@gmail.com"  # 🔥 Replace this
+    sender_password = "mhpz cbqa mclp itbb"         # 🔥 Replace this
+
+    try:
+        # Create email message
+        msg = MIMEText(body)
+        msg['Subject'] = subject
+        msg['From'] = f"WeVolt Team <{sender_email}>"
+        msg['To'] = email
+
+        # Connect to Outlook SMTP server
+        server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+        server.login(sender_email, sender_password)
+        server.sendmail(sender_email, email, msg.as_string())
+        server.quit()
+        print(f"✅ Email sent successfully to {email}")
+
+    except Exception as e:
+        print(f"❌ Failed to send email: {e}")
+
+def send_bill(user_id):
+     # Get user data
+    users_ref = db.collection('users')
+    query = users_ref.where('aruco_id', '==', user_id).get()
+
+    if not query:
+        print(f"❌ No user found with aruco_id {user_id}")
+        return False
+
+    user_data = query[0].to_dict()
+    email = user_data.get("email")
+    username = user_data.get("username")
+    duration = user_data.get("duration")  # you might have this in hours
+    send_email(email,username, duration)
+
+    
+
 
 
 # Raspberry Pi's IP address and the same port number
@@ -106,6 +161,7 @@ while True:
                         print("user removed")
                         remove_user(user_id)
                         update_user_duration(user_id)
+                        send_bill(user_id)
 
                     if is_collection_empty("sorted_users"):
                         message3 = f"UserID:0,SpotNbr:0,Duration:0,END"

@@ -24,6 +24,7 @@ def is_spot_taken(spot_nb, current_user_uid, leave_time):
     users = db.collection("users").stream()
     for user in users:
         data = user.to_dict()
+        print(current_user_uid)
         if data["uid"] != current_user_uid and data.get("spot_nb") == spot_nb and leave_time>current_time:
             return True
     return False
