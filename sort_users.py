@@ -40,12 +40,13 @@ def sort_users():
     now = datetime.now()
 
     for user in users:
+
         user_data = user.to_dict()
         exit_time_str = user_data.get("leave_time", "")
         exit_time = parse_time(exit_time_str)
         duration = float(user_data.get("duration", 0))
         aruco_id = int(user_data.get("aruco_id"))
-        spot_nb = int(user_data.get("spot_nb"))
+        spot_nb = int(user_data.get("spot_nb",0))
 
         if not exit_time:
             continue  # Skip users with invalid exit time
