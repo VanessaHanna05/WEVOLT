@@ -4,13 +4,15 @@ from datetime import datetime, timedelta
 import os
 import json
 import base64
+import streamlit as st
 
 def app():
     # Initialize Firebase Admin SDK (if not already initialized)
-    firebase_credentials = os.getenv("FIREBASE_CREDENTIALS")
-    if firebase_credentials:
-        json_creds = json.loads(base64.b64decode(firebase_credentials).decode("utf-8"))
-        cred = credentials.Certificate(json_creds)
+    firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
+
+
+    if firebase_dict:
+        cred = credentials.Certificate(firebase_dict)
         if not firebase_admin._apps:
             firebase_admin.initialize_app(cred)
     else:

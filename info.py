@@ -8,7 +8,12 @@ import os
 import sort_users
 
 # Initialize Firebase Admin SDK
-cred = credentials.Certificate('wevolt-4d8a8-2e9079117595.json')
+#cred = credentials.Certificate('wevolt-4d8a8-2e9079117595.json')
+import firebase_admin
+from firebase_admin import credentials
+firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
+cred = credentials.Certificate(firebase_dict)
+
 if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 
