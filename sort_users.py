@@ -43,7 +43,7 @@ def sort_users():
         duration = float(user_data.get("duration", 0))
         aruco_id = int(user_data.get("aruco_id", 0))
         spot_nb = int(user_data.get("spot_nb", 0))
-        user_date = float(user_data.get("date", 0))
+        user_date = user_data.get("date", "")
 
         if not exit_time:
             continue  # Skip users with invalid exit time
@@ -69,7 +69,7 @@ def sort_users():
             "duration": duration,
             "aruco_id": aruco_id,
             "spot_nb": spot_nb,
-            "date": user_date
+            "date": user_data.get("date", "")
         })
 
     # Sort users: first by exit time, then by descending duration
@@ -91,7 +91,7 @@ def sort_users():
         duration = float(data.get("duration", 0))
         user_date = data.get("date")
 
-        if duration <= 0 or user_date != today_str:
+        if duration <= 0:
             sorted_ref.document(user.id).delete()
             print(f"🗑️ Removed user from sorted_users: {user.id} (reason: expired or wrong date)")
 
