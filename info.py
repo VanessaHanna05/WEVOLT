@@ -106,7 +106,7 @@ def app(navigate):
             opacity: 1 !important;
         }}
         input[type="text"]:hover, textarea:hover, input[type="password"]:hover {{
-            background-color: #d3d3d3 !important;
+            background-color: white !important;
         }}
         div.stButton > button {{
             background-color: #4CAF50 !important;
