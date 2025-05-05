@@ -43,7 +43,7 @@ def sort_users():
         duration = float(user_data.get("duration", 0))
         aruco_id = int(user_data.get("aruco_id", 0))
         spot_nb = int(user_data.get("spot_nb", 0))
-        user_date = user_data.get("date", "")
+        user_date = float(user_data.get("date", 0))
 
         if not exit_time:
             continue  # Skip users with invalid exit time
