@@ -95,7 +95,7 @@ def sort_users():
         duration = float(data.get("duration", 0))
         user_date = data.get("date")
 
-        if duration <= 0 or user_date != today_str:
+        if duration <= 0:
             sorted_ref.document(user.id).delete()
             print(f"🗑️ Removed user from sorted_users: {user.id} (reason: expired or wrong date)")
 

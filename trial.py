@@ -6,12 +6,9 @@ import json
 import sort_users
 import smtplib
 from email.mime.text import MIMEText
-import streamlit as st
 
 # Initialize Firebase Admin SDK
-#cred = credentials.Certificate('wevolt-4d8a8-2e9079117595.json')  # Path to your credentials file
-firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
-cred = credentials.Certificate(firebase_dict)
+cred = credentials.Certificate('secretsWEVOLT.json')  # Path to your credentials file
 firebase_admin.initialize_app(cred)
 
 # Initialize Firestore client
@@ -137,7 +134,7 @@ def send_bill(user_id):
 
 
 # Raspberry Pi's IP address and the same port number
-HOST = '10.31.198.177'  # Replace this with your Raspberry Pi's IP address
+HOST = '192.168.248.19'  # Replace this with your Raspberry Pi's IP address
 PORT = 65432              # This must match the server's port
 
 while True:
