@@ -134,7 +134,8 @@ def send_bill(user_id):
 
 
 # Raspberry Pi's IP address and the same port number
-HOST = '192.168.248.19'  # Replace this with your Raspberry Pi's IP address
+#HOST = '192.168.248.19'
+HOST = '10.31.199.92'  # Replace this with your Raspberry Pi's IP address
 PORT = 65432              # This must match the server's port
 
 while True:

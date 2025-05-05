@@ -53,7 +53,7 @@ def sort_users():
 
         # If exit is earlier than now, assume it's the next day
         if parsed_exit < now:
-            parsed_exit += timedelta(days=1)
+            db.collection("users").document(user.id).update({"duration": -1})
 
         # If user's duration will overlap with or exceed their exit time
         if parsed_exit <= now or parsed_exit <= projected_end:
