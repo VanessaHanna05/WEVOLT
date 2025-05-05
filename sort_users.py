@@ -87,14 +87,17 @@ def sort_users():
     for idx, user in enumerate(sorted_users):
         sorted_ref.document(f"user_{idx}").set(user)
 
+    today_str = datetime.now().strftime("%Y-%m-%d")
+
     # Clean up users with duration <= 0 from sorted_users
     for user in sorted_ref.stream():
         data = user.to_dict()
         duration = float(data.get("duration", 0))
+        user_date = data.get("date")
 
-        if duration <= 0:
+        if duration <= 0 or user_date != today_str:
             sorted_ref.document(user.id).delete()
-            print(f"🗑️ Deleted expired user from sorted_users: {user.id}")
+            print(f"🗑️ Removed user from sorted_users: {user.id} (reason: expired or wrong date)")
 
     print("✅ User list sorted and updated in Firestore.")
 
