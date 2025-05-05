@@ -77,11 +77,11 @@ def app(navigate):
         }}
         input[type="text"] {{
             background-color: #717775;
-            color: black !important;
+            color: white !important;
             border-radius: 5px !important;
             border: 2px solid #717775 !important;
             font-size: 12px !important;
-            caret-color: black !important;
+            caret-color: white !important;
             width: 300px;
             height: 30px;
             margin-left: 0%;
