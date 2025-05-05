@@ -1,16 +1,12 @@
 import firebase_admin
 from firebase_admin import credentials, firestore
 from datetime import datetime, timedelta
-import os
 import json
-import base64
 import streamlit as st
 
 def app():
-    # Initialize Firebase Admin SDK (if not already initialized)
+    # Initialize Firebase Admin SDK
     firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
-
-
     if firebase_dict:
         cred = credentials.Certificate(firebase_dict)
         if not firebase_admin._apps:
@@ -25,28 +21,29 @@ def parse_time(time_str):
     try:
         return datetime.strptime(time_str, "%H:%M").time()
     except ValueError:
-        return None  # Handle invalid format
+        return None
 
 def sort_users():
-    # Initialize Firestore
+    # Initialize Firebase only if not already initialized
     if not firebase_admin._apps:
         firebase_admin.initialize_app()
     db = firestore.client()
 
     users_ref = db.collection("users")
     users = users_ref.stream()
-    
+
     user_list = []
     now = datetime.now()
 
     for user in users:
-
         user_data = user.to_dict()
+
         exit_time_str = user_data.get("leave_time", "")
         exit_time = parse_time(exit_time_str)
         duration = float(user_data.get("duration", 0))
-        aruco_id = int(user_data.get("aruco_id"))
-        spot_nb = int(user_data.get("spot_nb",0))
+        aruco_id = int(user_data.get("aruco_id", 0))
+        spot_nb = int(user_data.get("spot_nb", 0))
+        user_date = user_data.get("date", "")
 
         if not exit_time:
             continue  # Skip users with invalid exit time
@@ -54,7 +51,7 @@ def sort_users():
         parsed_exit = datetime.combine(now.date(), exit_time)
         projected_end = now + timedelta(hours=duration)
 
-        # If exit is earlier than now, assume it's next day
+        # If exit is earlier than now, assume it's the next day
         if parsed_exit < now:
             parsed_exit += timedelta(days=1)
 
@@ -63,20 +60,20 @@ def sort_users():
             duration = -1
             db.collection("users").document(user.id).update({"duration": -1})
 
-        # Add user to the list (expired or not)
+        # Add user to the list
         user_list.append({
             "uid": user.id,
             "username": user_data.get("username", ""),
-            "email": user_data.get("email",""),
+            "email": user_data.get("email", ""),
             "exit_time": exit_time_str,
             "duration": duration,
             "aruco_id": aruco_id,
-            "spot_nb": spot_nb
+            "spot_nb": spot_nb,
+            "date": user_date
         })
 
-    # Sort by exit time first, then by descending duration
+    # Sort users: first by exit time, then by descending duration
     sorted_users = sorted(user_list, key=lambda u: (parse_time(u["exit_time"]), -u["duration"]))
-
     sorted_ref = db.collection("sorted_users")
 
     # Clear old sorted list
@@ -87,20 +84,19 @@ def sort_users():
     for idx, user in enumerate(sorted_users):
         sorted_ref.document(f"user_{idx}").set(user)
 
+    # Remove outdated or expired users
     today_str = datetime.now().strftime("%Y-%m-%d")
-
-    # Clean up users with duration <= 0 from sorted_users
     for user in sorted_ref.stream():
         data = user.to_dict()
         duration = float(data.get("duration", 0))
         user_date = data.get("date")
 
-        if duration <= 0:
+        if duration <= 0 or user_date != today_str:
             sorted_ref.document(user.id).delete()
             print(f"🗑️ Removed user from sorted_users: {user.id} (reason: expired or wrong date)")
 
     print("✅ User list sorted and updated in Firestore.")
 
-# Run when script is executed
+# Run when script is executed directly
 if __name__ == "__main__":
     sort_users()
