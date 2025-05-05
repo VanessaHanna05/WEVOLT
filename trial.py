@@ -3,13 +3,13 @@ import socket
 from firebase_admin import credentials, firestore
 import time
 import json
-import sort_users
+import sort_users_copy
 import smtplib
 from email.mime.text import MIMEText
 
 # Initialize Firebase Admin SDK
 cred = credentials.Certificate('secretsWEVOLT.json')  # Path to your credentials file
-firebase_admin.initialize_app(cred)
+
 
 # Initialize Firestore client
 db = firestore.client()
@@ -141,7 +141,7 @@ PORT = 65432              # This must match the server's port
 while True:
     try:
             with socket.create_connection((HOST, PORT), timeout=1) as sock:
-                sort_users.sort_users()
+                sort_users_copy.sort_users()
                 
 
                 first_user = get_first_user()
@@ -163,6 +163,7 @@ while True:
                         remove_user(user_id)
                         update_user_duration(user_id)
                         send_bill(user_id)
+                        
 
                     if is_collection_empty("sorted_users"):
                         message3 = f"UserID:0,SpotNbr:0,Duration:0,END"
