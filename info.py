@@ -101,7 +101,7 @@ def app(navigate):
             margin-bottom: -20px;
         }}
         input::placeholder, textarea::placeholder {{
-            color: lightgrey !important;
+            color: white !important;
             font-style: italic !important;
             opacity: 1 !important;
         }}
@@ -130,6 +130,9 @@ def app(navigate):
     leave_time_str = st.text_input("Exit Time", placeholder="HH:MM (24-hour format)")
     charging_duration_str = st.text_input("Charging Duration", placeholder="Charging duration (in hours)")
     spot_nb = st.text_input("Spot no.", placeholder="Check which spot you are parked on")
+    # Date input (defaults to today)
+    selected_date = st.date_input("Date", value=datetime.date.today(), disabled=True)
+
 
     # Submit button
     if st.button("Submit"):
@@ -138,11 +141,12 @@ def app(navigate):
             return
 
         try:
+
             current_user = st.session_state.get('logged_in_user')
             # Validate leave time
             leave_time = datetime.datetime.strptime(leave_time_str, "%H:%M").time()
             current_time = datetime.datetime.now().time()
-
+            current_date = selected_date.strftime("%Y-%m-%d")
             # Validate charging duration
             charging_duration = float(charging_duration_str)
 
@@ -163,7 +167,8 @@ def app(navigate):
             update_user_info({
                 "leave_time": leave_time_str,
                 "duration": charging_duration_str,
-                "spot_nb": spot_nb
+                "spot_nb": spot_nb,
+                "date": current_date
             })
 
             # Call sorting script
