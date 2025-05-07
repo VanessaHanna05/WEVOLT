@@ -7,6 +7,7 @@ import home, main
 import os
 import json
 import sort_users
+from main import db
 
 
 
@@ -21,15 +22,15 @@ import sort_users
 #else:
 #    raise FileNotFoundError("Firebase credentials not found in Streamlit secrets.")
 #cred = credentials.Certificate('wevolt-4d8a8-2e9079117595.json')
-firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
-cred = credentials.Certificate(firebase_dict)
+#firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
+#cred = credentials.Certificate(firebase_dict)
 
 
 # Initialize Firebase Admin SDK
-if not firebase_admin._apps:
-    firebase_admin.initialize_app(cred)
+#if not firebase_admin._apps:
+ #   firebase_admin.initialize_app(cred)
 
-db = firestore.client()  # ✅ Always safe now
+#db = firestore.client()  # ✅ Always safe now
 
 def app(navigate):
 

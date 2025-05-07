@@ -34,7 +34,7 @@ if not firebase_admin._apps:
 #else:
 #    raise FileNotFoundError("Firebase credentials not found in Streamlit secrets.")
 
-
+db = firestore.client()
 # Initialize session state for current_page if it doesn't exist.
 if 'current_page' not in st.session_state:
     st.session_state['current_page'] = 'home'
