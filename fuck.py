@@ -6,6 +6,6 @@ import firebase_admin
 import streamlit as st
 import json
 
-firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
-cred = credentials.Certificate(firebase_dict)
-st.write(firebase_dict)
+cred = credentials.Certificate('secretsWEVOLT.json')
+firebase_admin.initialize_app(cred)
+db = firestore.client()

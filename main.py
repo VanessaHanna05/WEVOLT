@@ -6,17 +6,9 @@ import firebase_admin
 import streamlit as st
 import json
 
-firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
-cred = credentials.Certificate(firebase_dict)
+cred = credentials.Certificate(st.secrets["FIREBASE_CREDENTIALS"])
 # Initialize Firebase Admin SDK
-if not firebase_admin._apps:
-    try:
-        firebase_admin.initialize_app(cred, {
-            'projectId': firebase_dict.get("project_id")
-        })
-        st.write(firebase_dict.get("project_id"))
-    except Exception as e:
-        st.error(f"Firebase initialization failed: {e}")
+firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 import home
