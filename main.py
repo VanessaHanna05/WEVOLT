@@ -14,6 +14,7 @@ if not firebase_admin._apps:
         firebase_admin.initialize_app(cred, {
             'projectId': firebase_dict.get("project_id")
         })
+        st.write(firebase_dict.get("project_id"))
     except Exception as e:
         st.error(f"Firebase initialization failed: {e}")
 db = firestore.client()
