@@ -25,7 +25,7 @@ if not firebase_admin._apps:
 #else:
 #    raise FileNotFoundError("Firebase credentials not found in Streamlit secrets.")
 
-db = firestore.client()
+    db = firestore.client()
 
 def get_next_aruco_id():
     """Fetches the last used Aruco ID and increments it."""
