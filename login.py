@@ -7,7 +7,7 @@ import home, main
 import os
 import json
 import sort_users
-from main import db
+
 
 
 
@@ -31,6 +31,15 @@ from main import db
  #   firebase_admin.initialize_app(cred)
 
 #db = firestore.client()  # ✅ Always safe now
+
+def get_db():
+    if not firebase_admin._apps:
+        firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
+        cred = credentials.Certificate(firebase_dict)
+        firebase_admin.initialize_app(cred)
+    return firestore.client()
+
+db = get_db()
 
 def app(navigate):
 
