@@ -10,8 +10,10 @@ firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
 cred = credentials.Certificate(firebase_dict)
 # Initialize Firebase Admin SDK
 if not firebase_admin._apps:
-    firebase_admin.initialize_app(cred)
-
+    try:
+        firebase_admin.initialize_app(cred)
+    except Exception as e:
+        st.error(f"Firebase initialization failed: {e}")
 db = firestore.client()
 
 import home
