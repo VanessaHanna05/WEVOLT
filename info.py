@@ -16,11 +16,12 @@ cred = credentials.Certificate(firebase_dict)
 
 if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
+    db = firestore.client()
 
 
 current_time = datetime.datetime.now().time()
 
-db = firestore.client()
+
 
 def is_spot_taken(spot_nb, current_user_uid, leave_time):
     """
