@@ -1,4 +1,7 @@
 
+import base64
+from firebase_admin import credentials, firestore
+from firebase_admin import auth
 firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
 cred = credentials.Certificate(firebase_dict)
 
@@ -11,9 +14,7 @@ import info
 import firebase_admin
 import os
 import json
-import base64
-from firebase_admin import credentials, firestore
-from firebase_admin import auth
+
 
 
 #cred = credentials.Certificate('wevolt-4d8a8-2e9079117595.json')
