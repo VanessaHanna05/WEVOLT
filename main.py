@@ -1,3 +1,7 @@
+
+firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
+cred = credentials.Certificate(firebase_dict)
+
 import streamlit as st
 import home
 import signin
@@ -19,8 +23,7 @@ from firebase_admin import auth
 
 # Use the direct path to the credentials file
 #cred = credentials.Certificate('wevolt-4d8a8-2e9079117595.json')
-firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
-cred = credentials.Certificate(firebase_dict)
+
 
 
 # Initialize Firebase Admin SDK
