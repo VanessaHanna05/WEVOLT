@@ -6,10 +6,13 @@ import firebase_admin
 import streamlit as st
 import json
 
-cred = credentials.Certificate(st.secrets["FIREBASE_CREDENTIALS"])
-# Initialize Firebase Admin SDK
-firebase_admin.initialize_app(cred)
+# Use parsed dictionary directly from TOML
+if not firebase_admin._apps:
+    cred = credentials.Certificate(st.secrets["FIREBASE_CREDENTIALS"])
+    firebase_admin.initialize_app(cred)
+
 db = firestore.client()
+
 
 import home
 import signin
