@@ -9,8 +9,7 @@ import json
 firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
 cred = credentials.Certificate(firebase_dict)
 # Initialize Firebase Admin SDK
-if not firebase_admin._apps:
-    firebase_admin.initialize_app(cred)
+firebase_admin.initialize_app(cred)
 
 
 import home
