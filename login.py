@@ -28,10 +28,9 @@ cred = credentials.Certificate(firebase_dict)
 # Initialize Firebase Admin SDK
 if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
-    db = firestore.client()
 
+db = firestore.client()  # ✅ Always safe now
 
-db = firestore.client()
 def app(navigate):
 
     def authenticate_user(username, password):
