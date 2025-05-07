@@ -9,6 +9,7 @@ import os
 
 firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
 cred = credentials.Certificate(firebase_dict)
+firebase_admin.initialize_app()
 db = firestore.client()
 
 def parse_time(time_str):
