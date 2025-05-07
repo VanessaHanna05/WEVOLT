@@ -31,7 +31,7 @@ if not firebase_admin._apps:
     db = firestore.client()
 
 
-
+db = firestore.client()
 def app(navigate):
 
     def authenticate_user(username, password):
