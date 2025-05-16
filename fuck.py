@@ -1,11 +1,10 @@
+import qrcode
 
-import base64
-from firebase_admin import credentials, firestore
-from firebase_admin import auth
-import firebase_admin
-import streamlit as st
-import json
+url = "http://192.168.248.22:8501/"
+img = qrcode.make(url)
+img.save("streamlit_qr.png")
 
-cred = credentials.Certificate('secretsWEVOLT.json')
-firebase_admin.initialize_app(cred)
-db = firestore.client()
+import os
+
+print("Saving to:", os.getcwd())
+img.save("streamlit_qr.png")

@@ -11,12 +11,15 @@ import sort_users
 #cred = credentials.Certificate('wevolt-4d8a8-2e9079117595.json')
 import firebase_admin
 from firebase_admin import credentials
-firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
-cred = credentials.Certificate(firebase_dict)
+#firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
+#cred = credentials.Certificate(firebase_dict)
+cred = credentials.Certificate('secretsWEVOLT.json')
+
+
 
 if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
-    db = firestore.client()
+db = firestore.client()
 
 
 current_time = datetime.datetime.now().time()
@@ -78,7 +81,7 @@ def app(navigate):
         }}
         input[type="text"] {{
             background-color: #717775;
-            color: white !important;
+            color: black !important;
             border-radius: 5px !important;
             border: 2px solid #717775 !important;
             font-size: 12px !important;
@@ -107,7 +110,7 @@ def app(navigate):
             opacity: 1 !important;
         }}
         input[type="text"]:hover, textarea:hover, input[type="password"]:hover {{
-            background-color: white !important;
+            background-color: grey !important;
         }}
         div.stButton > button {{
             background-color: #4CAF50 !important;

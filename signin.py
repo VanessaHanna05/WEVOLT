@@ -8,8 +8,11 @@ import json
 import os
 import sort_users
 #cred = credentials.Certificate('wevolt-4d8a8-2e9079117595.json')
-firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
-cred = credentials.Certificate(firebase_dict)
+#firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
+#cred = credentials.Certificate(firebase_dict)
+cred = credentials.Certificate('secretsWEVOLT.json')
+
+
 
 # Initialize Firebase Admin SDK
 if not firebase_admin._apps:
@@ -25,7 +28,7 @@ if not firebase_admin._apps:
 #else:
 #    raise FileNotFoundError("Firebase credentials not found in Streamlit secrets.")
 
-    db = firestore.client()
+db = firestore.client()
 
 def get_next_aruco_id():
     """Fetches the last used Aruco ID and increments it."""

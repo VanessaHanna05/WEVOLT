@@ -7,8 +7,12 @@ import os
 
 
 
-firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
-cred = credentials.Certificate(firebase_dict)
+#firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
+#cred = credentials.Certificate(firebase_dict)
+cred = credentials.Certificate('secretsWEVOLT.json')
+if not firebase_admin._apps:
+    firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 
 def parse_time(time_str):

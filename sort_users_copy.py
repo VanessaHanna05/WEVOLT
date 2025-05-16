@@ -56,6 +56,10 @@ def sort_users():
             db.collection("users").document(user.id).update({"duration": -1})
             continue
 
+        if int(duration)<0:
+            print(f"⛔ Skipping user {user.id}: duration <0")
+            continue
+
         # User is valid, add to list
         user_list.append({
             "uid": user.id,

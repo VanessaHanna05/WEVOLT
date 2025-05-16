@@ -86,7 +86,7 @@ def send_email(email,username,hrs):
     Hi {username},
 
     This is a notification from WeVolt. 
-    You charged your car today for {hrs} hrs, and your total charge will be {20*hrs}
+    You charged your car today for {hrs} hrs, and your total charge will be {20*hrs} $
     Thank you for being part of our platform!
 
     Best regards,
@@ -126,12 +126,8 @@ def send_bill(user_id):
     user_data = query[0].to_dict()
     email = user_data.get("email")
     username = user_data.get("username")
-    duration = user_data.get("duration")  # you might have this in hours
+    duration = float(user_data.get("duration"))  # you might have this in hours
     send_email(email,username, duration)
-
-    
-
-
 
 # Raspberry Pi's IP address and the same port number
 #HOST = '192.168.248.19'
@@ -151,31 +147,42 @@ while True:
                     message3 = f"UserID:0,SpotNbr:0,Duration:0,END"
                     sock.sendall(message3.encode())
                     print("No users found, sending END message.")
+                    continue
                     # Skip the rest of the loop and start again
                 else:
                     user_id = first_user["aruco_id"]
                     spot_nb = first_user["spot_nb"]
-                    response = sock.recv(1024).decode()
-                    print(f"📥 Response from Pi: {response}")
-                    if response == "Charging STARTCOMPLETE":
-                        #remove user
-                        print("user removed")
-                        remove_user(user_id)
-                        update_user_duration(user_id)
-                        send_bill(user_id)
-                        
 
                     if is_collection_empty("sorted_users"):
                         message3 = f"UserID:0,SpotNbr:0,Duration:0,END"
                         sock.sendall(message3.encode())
                     else:    
-                        duration = int(int(first_user["duration"])*3600)
+                        duration = int(float(first_user["duration"])*3600)
                         message2 = f"UserID:{user_id},SpotNbr:{spot_nb},Duration:{duration}, START"
                         sock.sendall(message2.encode())
                             
-                    if first_user:
                         print(f"First user's data: {first_user}")
+                        
 
+                        response = sock.recv(1024).decode()
+                        print(f"📥 Response from Pi: {response}")
+                        
+
+                        if response == "START":
+                            send_bill(user_id)
+                            #remove user
+                            print("user started")
+                            remove_user(user_id)
+                            update_user_duration(user_id)
+                        
+                            sort_users_copy.sort_users()
+                    if is_collection_empty("sorted_users"):
+                        message3 = f"UserID:0,SpotNbr:0,Duration:0,END"
+                        sock.sendall(message3.encode())
+                        
+                        
+
+                    
 
     except Exception as e:
                 print(f"❌ Failed to connect/send: {e}")

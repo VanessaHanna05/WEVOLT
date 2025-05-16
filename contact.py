@@ -1,5 +1,4 @@
 import streamlit as st
-import streamlit as st
 import firebase_admin
 from firebase_admin import credentials, firestore
 import base64
@@ -19,8 +18,10 @@ import time
 #    raise FileNotFoundError("Firebase credentials not found in Streamlit secrets.")
 #cred = credentials.Certificate('wevolt-4d8a8-2e9079117595.json')
 # Load credentials from Streamlit secrets
-firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
-cred = credentials.Certificate(firebase_dict)
+#firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
+#cred = credentials.Certificate(firebase_dict)
+cred = credentials.Certificate('secretsWEVOLT.json')
+
 # Initialize Firebase Admin SDK
 if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)

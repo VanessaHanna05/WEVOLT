@@ -7,8 +7,7 @@ import home, main
 import os
 import json
 import sort_users
-
-
+from main import db
 
 
 # Initialize Firebase Admin SDK (Only initialize once)
@@ -32,14 +31,10 @@ import sort_users
 
 #db = firestore.client()  # ✅ Always safe now
 
-def get_db():
-    if not firebase_admin._apps:
-        firebase_dict = json.loads(st.secrets["FIREBASE_CREDENTIALS"])
-        cred = credentials.Certificate(firebase_dict)
-        firebase_admin.initialize_app(cred)
-    return firestore.client()
-
-db = get_db()
+cred = credentials.Certificate('secretsWEVOLT.json')
+if not firebase_admin._apps:
+    firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 def app(navigate):
 

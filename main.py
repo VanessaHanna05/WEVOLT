@@ -7,11 +7,11 @@ import streamlit as st
 import json
 
 # Use parsed dictionary directly from TOML
-if not firebase_admin._apps:
-    cred = credentials.Certificate(st.secrets["FIREBASE_CREDENTIALS"])
-    firebase_admin.initialize_app(cred)
+#if not firebase_admin._apps:
+#    cred = credentials.Certificate(st.secrets["FIREBASE_CREDENTIALS"])
+#  firebase_admin.initialize_app(cred)
 
-db = firestore.client()
+#db = firestore.client()
 
 
 import home
@@ -24,8 +24,10 @@ import os
 
 
 
-#cred = credentials.Certificate('wevolt-4d8a8-2e9079117595.json')
-#firebase_admin.initialize_app(cred)
+cred = credentials.Certificate('secretsWEVOLT.json')
+if not firebase_admin._apps:
+    firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 #firebase_credentials = os.getenv("FIREBASE_CREDENTIALS")
 
